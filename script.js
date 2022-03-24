@@ -46,6 +46,7 @@ function addQuestion(index) {
         let inputEl = document.createElement('input');
         inputEl.type = 'radio';
         inputEl.name = 'answer';
+        inputEl.value = item;
         labelEl.append(inputEl, item);
         wrapperEl.append(labelEl);
         optionsWrapper.append(wrapperEl);
@@ -58,9 +59,41 @@ function addQuestion(index) {
 addQuestion(currentIndex)
 
 
-document.addEventListener('click', () => {
+
+
+let next = document.querySelector(".next")
+next.addEventListener('click', () => {
     currentIndex++;
     addQuestion(currentIndex)
+  
 })
+// labelEl.addEventListener('click', () =>{
+//     if(questions[index] == answer){
+//         questions[index].style.collor = ("red") 
+//     }
+// })
+
+let submit = document.querySelector('.submit')
+
+
+
+
+submit.addEventListener('click', () =>{
+    let options = document.querySelectorAll("[name=answer]")
+   
+   options.forEach(option=>{
+       if(questions[currentIndex].answer ===  option.value){
+          option.closest('label').classList.add("correct") 
+          console.log(options) 
+
+       }
+       if(questions[currentIndex].answer !==  option.value && option.checked ){
+        option.closest('label').classList.add("incorrect")
+       }
+      
+   })
+   
+}) 
+
 
 
