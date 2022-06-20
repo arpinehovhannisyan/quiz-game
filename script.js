@@ -23,7 +23,86 @@ alert( new F() instanceof Function );
             'true, true'
         ],
         answer: 'false, true'
-    }
+    },
+    {
+        title: `Что выведет sayHi при вызове через setTimeout?
+<pre>
+let name = "Вася";
+function sayHi() {
+  alert(name);
+}
+
+setTimeout(function() {
+  let name = "Петя";
+  sayHi();
+}, 1000);
+</pre>`,
+        options: [
+            'Вася',
+            'Петя',
+            'undefined',
+            'будет ошибок'
+        ],
+        answer: 'Вася'
+    },
+    {
+        title: `Что выведет alert?
+<pre>
+let str = "Hello";
+str.something = 5;
+alert(str.something); // ?
+</pre>`,
+        options: [
+            '5',
+            'undefined',
+            'будет ошибок',
+            '3'
+        ],
+        answer: 'будет ошибок'
+    },
+    {
+        title: `Какие конструкции для циклов есть в javascript?
+<pre>
+
+</pre>`,
+        options: [
+            'Только две: for и while.',
+            'Только одна: for.',
+            'Три: for, while и do...while.',
+            'Только одна: while'
+        ],
+        answer: 'Три: for, while и do...while.'
+    },
+    {
+        title: `Яблоко стоит 1.15, апельсин стоит 2.30.
+<pre>
+Сколько стоят они вместе – 
+чему равна сумма 1.15 + 2.30 с точки зрения JavaScript?
+</pre>`,
+        options: [
+            '345',
+            '3.45',
+            '3,45',
+            'Ни один из вариантов выше.'
+        ],
+        answer: 'Ни один из вариантов выше.'
+    },
+    {
+        title: `Чему равно i в конце кода?
+<pre>
+for(let i=0; i<10; i++) {
+    console.log(i);
+  }
+  // i = ?
+</pre>`,
+        options: [
+            'undefined',
+            '9',
+            '10',
+            'Нет такой переменной после цикла.'
+        ],
+        answer: 'Нет такой переменной после цикла.'
+    },
 ];
 
 let currentIndex = 0;
@@ -57,43 +136,54 @@ function addQuestion(index) {
 }
 
 addQuestion(currentIndex)
-
-
-
-
+let skip = document.querySelector(".skip")
 let next = document.querySelector(".next")
 next.addEventListener('click', () => {
     currentIndex++;
     addQuestion(currentIndex)
+    submit.classList.remove("nan")
+    skip.classList.remove("nan")
+    
   
 })
-// labelEl.addEventListener('click', () =>{
-//     if(questions[index] == answer){
-//         questions[index].style.collor = ("red") 
-//     }
-// })
 
+skip.addEventListener("click", () =>{
+    let options = document.querySelectorAll("[name=answer]")
+    options.forEach(option=>{
+        if(questions[currentIndex].answer ===  option.value){
+            option.closest('label').classList.add("correct") 
+            
+         } 
+    })
+     
+})
+let corrctAnswers = 0
 let submit = document.querySelector('.submit')
-
-
-
-
 submit.addEventListener('click', () =>{
     let options = document.querySelectorAll("[name=answer]")
-   
    options.forEach(option=>{
+    
        if(questions[currentIndex].answer ===  option.value){
           option.closest('label').classList.add("correct") 
-          console.log(options) 
-
        }
        if(questions[currentIndex].answer !==  option.value && option.checked ){
         option.closest('label').classList.add("incorrect")
        }
       
+       if(questions[currentIndex].answer ===  option.value && option.checked){
+          corrctAnswers++
+         
+       }
+       
+         console.log(corrctAnswers)
    })
-   
+   options.forEach(option=>
+    {
+      option.disabled = true  
+    }
+     ) 
 }) 
+
 
 
 
